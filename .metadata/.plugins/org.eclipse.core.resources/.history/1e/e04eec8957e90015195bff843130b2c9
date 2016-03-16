@@ -1,0 +1,84 @@
+/**
+ * 
+ */
+package edu.towson.cis.cosc442.project3.vendingmachine;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author Dan
+ */
+public class VendingMachineItemTest{
+
+	private VendingMachineItem item1, item2, item3, item4;
+	
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		item1 = new VendingMachineItem("chips", 3.00);
+		item2 = new VendingMachineItem("candy", 1.00);
+	}
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		item1 = null;
+		item2 = null;
+	}
+	
+	/**
+	 * Fail
+	 * Test VendingMachineItem to make sure names can't be null.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testVendingMachineItemFalseNull() {
+		try{
+			item3 = new VendingMachineItem(null, 3.00);
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Fail
+	 * Test VendingMachineItem to make sure prices can't be negative.
+	 */
+	@Test
+	public void testVendingMachineItemFailNegative() {
+		try{
+			item4 = new VendingMachineItem("old candy", -1.00);
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	
+	/**
+	 * Test getName for getting names for simple items.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetName() {
+		assertEquals("chips", item1.getName());
+		assertEquals("candy", item2.getName());
+	}
+	
+	
+	/**
+	 * Test getPrice for getting prices for simple items.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetPrice() {
+		assertEquals(3.00, item1.getPrice(), .001);
+		assertEquals(1.00, item2.getPrice(), .001);
+	}
+}

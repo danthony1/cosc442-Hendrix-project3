@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>VendingMachineTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (Mar 16, 2016 2:31:49 PM)</a> &gt; <a href="../../index.html" class="el_group">VendingMachine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.towson.cis.cosc442.project3.vendingmachine</a> &gt; <span class="el_source">VendingMachineTest.java</span></div><h1>VendingMachineTest.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package edu.towson.cis.cosc442.project3.vendingmachine;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author Dan
+ */
+<span class="fc" id="L15">public class VendingMachineTest{</span>
+	
+	protected VendingMachine vm1;
+	private VendingMachineItem item1;
+	private VendingMachineItem item2;
+	private VendingMachineItem item3;
+	private VendingMachineItem item4;
+	
+	private static final String INVALID_AMOUNT_MESSAGE = &quot;Invalid amount.  Amount must be &gt;= 0&quot;;
+	
+	
+	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L34">		item1 = new VendingMachineItem(&quot;chips&quot;, 3.00);</span>
+<span class="fc" id="L35">		item2 = new VendingMachineItem(&quot;candy&quot;, 1.00);</span>
+<span class="fc" id="L36">		item3 = new VendingMachineItem(&quot;jerky&quot;, 5.00);</span>
+<span class="fc" id="L37">		item4 = new VendingMachineItem(&quot;pepsi&quot;, 2.00);</span>
+		
+<span class="fc" id="L39">		vm1 = new VendingMachine();</span>
+<span class="fc" id="L40">	}</span>
+
+	/**
+	 * Test addItem for a simple Item being added.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testAddItem() {
+		try{
+<span class="fc" id="L49">			vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L50">			vm1.addItem(item2, &quot;B&quot;);</span>
+<span class="fc" id="L51">			vm1.addItem(item3, &quot;C&quot;);</span>
+<span class="fc" id="L52">			vm1.addItem(item4, &quot;D&quot;);</span>
+<span class="pc" id="L53">		} catch (Exception e){</span>
+<span class="nc" id="L54">			fail(&quot;fail&quot;);</span>
+		}
+<span class="fc" id="L56">	}</span>
+	
+	/**
+	 * Fail
+	 * Test addItem to make sure that a non pre-approved letter can't be used.
+	 */
+	@Test
+	public void testAddItemFailWrongCode() {
+		try{
+<span class="nc" id="L65">			vm1.addItem(item1, &quot;L&quot;);</span>
+<span class="nc" id="L66">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L67">		} catch (Exception e){}</span>
+<span class="fc" id="L68">	}</span>
+	
+	/**
+	 * Fail
+	 * Test addItem to make sure that one code can't be overwritten.
+	 */
+	@Test
+	public void testAddItemFailRepeatCode() {
+		try{
+<span class="nc" id="L77">			vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="nc" id="L78">			vm1.addItem(item2, &quot;A&quot;);</span>
+<span class="nc" id="L79">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L80">		} catch (Exception e){}</span>
+<span class="fc" id="L81">	}</span>
+	
+	/**
+	 * Test getItem for getting a simple item.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetItem() {
+<span class="fc" id="L89">		vm1.addItem(item1, &quot;A&quot;);</span>
+		try{
+<span class="fc" id="L91">			vm1.getItem(&quot;A&quot;);</span>
+<span class="pc" id="L92">		} catch (Exception e){</span>
+<span class="nc" id="L93">			fail(&quot;fail&quot;);</span>
+		}
+<span class="fc" id="L95">	}</span>
+	
+	/**
+	 * Fail
+	 * Test getItem reacting to a bad code.
+	 */
+	@Test
+	public void testGetItemFailWrongCode() {
+<span class="fc" id="L103">		vm1.addItem(item1, &quot;A&quot;);</span>
+		
+		try{
+<span class="nc" id="L106">			vm1.getItem(&quot;B&quot;);</span>
+<span class="nc" id="L107">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L108">		} catch (Exception e){}</span>
+<span class="fc" id="L109">	}</span>
+	
+	/**
+	 * Test removeItem removing a simple item.
+	 */
+	//---------------------------------------------------
+	@Test(expected = edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineException.class)
+	public void testRemoveItem() {
+<span class="nc" id="L117">		vm1.balance = 1.0;</span>
+<span class="nc" id="L118">		String code = &quot;A&quot;;</span>
+
+<span class="nc" id="L120">		VendingMachineItem result = vm1.removeItem(code);</span>
+<span class="nc" id="L121">		assertNotNull(result);</span>
+<span class="nc" id="L122">	}</span>
+	
+	/**
+	 * Fail
+	 * Test removeItem.
+	 */
+	@Test(expected = edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineException.class)
+	public void testRemoveItem_2(){
+<span class="nc" id="L130">		vm1.balance = 1.0;</span>
+<span class="nc" id="L131">		String code = &quot;&quot;;</span>
+		
+<span class="nc" id="L133">		VendingMachineItem result = vm1.removeItem(code);</span>
+<span class="nc" id="L134">		assertNotNull(result);</span>
+<span class="nc" id="L135">	}</span>
+	
+	
+
+	
+	/**
+	 * Test insertMoney to see if a Money will insert on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testInsertMoney() {
+<span class="fc" id="L146">		vm1.addItem(item1, &quot;A&quot;);</span>
+		try{
+<span class="fc" id="L148">			vm1.insertMoney(5);</span>
+<span class="pc" id="L149">		} catch (Exception e){</span>
+<span class="nc" id="L150">			fail(&quot;fail&quot;);</span>
+		}
+<span class="fc" id="L152">		assertEquals(5, vm1.getBalance(), .001);</span>
+<span class="fc" id="L153">	}</span>
+	
+	/**
+	 * Test insertMoney to make sure no one can insert a negative amount of money.
+	 */
+	@Test
+	public void testInsertMoneyFailNegative() {
+<span class="fc" id="L160">		vm1.addItem(item1, &quot;A&quot;);</span>
+		try{
+<span class="nc" id="L162">			vm1.insertMoney(-5);</span>
+<span class="nc" id="L163">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L164">		} catch (Exception e){}</span>
+<span class="fc" id="L165">	}</span>
+	
+	/**
+	 * Test getBalance to see if the balance will come out correctly after every section of
+	 * a basic transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetBalance() {
+<span class="fc" id="L174">		assertEquals(0, vm1.balance, .001);</span>
+<span class="fc" id="L175">		vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L176">		vm1.insertMoney(5.0);</span>
+<span class="fc" id="L177">		assertEquals(5.0, vm1.balance, .001);</span>
+<span class="fc" id="L178">		vm1.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L179">		assertEquals(2.0, vm1.balance, .001);</span>
+<span class="fc" id="L180">		vm1.returnChange();</span>
+<span class="fc" id="L181">		assertEquals(0, vm1.balance, .001);</span>
+<span class="fc" id="L182">	}</span>
+	
+	
+	/**
+	 * Test makePurchase on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testMakePurchase() {
+<span class="fc" id="L191">		vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L192">		vm1.insertMoney(5.0);</span>
+<span class="fc" id="L193">		assertTrue(vm1.makePurchase(&quot;A&quot;));</span>
+<span class="fc" id="L194">	}</span>
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a bad code will fail the method.
+	 */
+	@Test
+	public void testMakePurchaseFailBadCode() {
+<span class="fc" id="L202">		vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L203">		vm1.insertMoney(5.0);</span>
+		try{
+<span class="nc" id="L205">			vm1.makePurchase(&quot;L&quot;);</span>
+<span class="nc" id="L206">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L207">		} catch (Exception e){}</span>
+<span class="fc" id="L208">	}</span>
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a null value will not pass.
+	 */
+	@Test
+	public void testMakePurchaseFailNull() {
+<span class="fc" id="L216">		vm1.addItem(null, &quot;A&quot;);</span>
+<span class="fc" id="L217">		vm1.insertMoney(5.0);</span>
+		try{
+<span class="nc" id="L219">			vm1.makePurchase(&quot;A&quot;);</span>
+<span class="nc" id="L220">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L221">		} catch (Exception e){</span>
+			//assertThat(anIndexOutOfBoundsException.getMessage(), is(&quot;Index: 0, Size: 0&quot;));
+		}
+<span class="fc" id="L224">	}</span>
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a code fails if it doesn't represent an item (is empty).
+	 */
+	@Test
+	public void testMakePurchaseFailWrongCode() {
+<span class="fc" id="L232">		vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L233">		vm1.insertMoney(5.0);</span>
+		try{
+<span class="nc" id="L235">			vm1.makePurchase(&quot;B&quot;);</span>
+<span class="nc" id="L236">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L237">		} catch (Exception e){}</span>
+<span class="fc" id="L238">	}</span>
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a code fails if it doesn't represent an item (is empty).
+	 */
+	@Test
+	public void testMakePurchaseFailShortChange() {
+<span class="fc" id="L246">		vm1.addItem(item3, &quot;A&quot;);</span>
+<span class="fc" id="L247">		vm1.insertMoney(2.0);</span>
+		try{
+<span class="nc" id="L249">			vm1.makePurchase(&quot;A&quot;);</span>
+<span class="nc" id="L250">			fail(&quot;fail&quot;);</span>
+<span class="pc" id="L251">		} catch (Exception e){}</span>
+<span class="fc" id="L252">	}</span>
+	
+	/**
+	 * Test returnChange to see if it will return the correct amount of change on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testReturnChange() {
+<span class="fc" id="L260">		vm1.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L261">		vm1.insertMoney(5);</span>
+<span class="fc" id="L262">		vm1.makePurchase(&quot;A&quot;);</span>
+<span class="fc" id="L263">		assertEquals(2, vm1.returnChange(), .001);</span>
+<span class="fc" id="L264">		assertEquals(0, vm1.balance, .001);</span>
+<span class="fc" id="L265">	}</span>
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+<span class="fc" id="L272">		item1 = null;</span>
+<span class="fc" id="L273">		item2 = null;</span>
+<span class="fc" id="L274">		item3 = null;</span>
+<span class="fc" id="L275">		vm1 = null;</span>
+<span class="fc" id="L276">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>AllTests (Mar 16, 2016 2:31:49 PM)</div></body></html>

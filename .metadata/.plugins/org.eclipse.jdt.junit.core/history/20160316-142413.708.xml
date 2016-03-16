@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="VendingMachineTest" project="VendingMachine" tests="15" started="15" failures="0" errors="0" ignored="0">
+  <testsuite name="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.009">
+    <testcase name="testMakePurchaseFailNull" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.003"/>
+    <testcase name="testAddItem" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testInsertMoney" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.001"/>
+    <testcase name="testMakePurchaseFailShortChange" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testGetItem" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testInsertMoneyFailNegative" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.001"/>
+    <testcase name="testMakePurchase" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testMakePurchaseFailBadCode" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testAddItemFailWrongCode" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testGetBalance" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.001"/>
+    <testcase name="testRemoveItem" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testAddItemFailRepeatCode" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testReturnChange" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.0"/>
+    <testcase name="testMakePurchaseFailWrongCode" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.001"/>
+    <testcase name="testGetItemFailWrongCode" classname="edu.towson.cis.cosc442.project3.vendingmachine.VendingMachineTest" time="0.001"/>
+  </testsuite>
+</testrun>

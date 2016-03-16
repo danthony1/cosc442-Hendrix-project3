@@ -1,0 +1,234 @@
+/**
+ * 
+ */
+package edu.towson.cis.cosc442.project3.vendingmachine;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * @author Dan
+ */
+public class VendingMachineTest{
+	
+	protected VendingMachine vm1;
+	private VendingMachineItem item1;
+	private VendingMachineItem item2;
+	private VendingMachineItem item3;
+	private VendingMachineItem item4;
+	
+	private static final String INVALID_AMOUNT_MESSAGE = "Invalid amount.  Amount must be >= 0";
+	
+	
+	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+		item1 = new VendingMachineItem("chips", 3.00);
+		item2 = new VendingMachineItem("candy", 1.00);
+		item3 = new VendingMachineItem("jerky", 5.00);
+		item4 = new VendingMachineItem("pepsi", 2.00);
+		
+		vm1 = new VendingMachine();
+	}
+
+	/**
+	 * Test addItem for a simple Item being added.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testAddItem() {
+		try{
+			vm1.addItem(item1, "A");
+			vm1.addItem(item2, "B");
+			vm1.addItem(item3, "C");
+			vm1.addItem(item4, "D");
+		} catch (Exception e){
+			fail("fail");
+		}
+	}
+	
+	/**
+	 * Fail
+	 * Test addItem to make sure that a non pre-approved letter can't be used.
+	 */
+	@Test
+	public void testAddItemFailWrongCode() {
+		try{
+			vm1.addItem(item1, "L");
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Fail
+	 * Test addItem to make sure that one code can't be overwritten.
+	 */
+	@Test
+	public void testAddItemFailRepeatCode() {
+		try{
+			vm1.addItem(item1, "A");
+			vm1.addItem(item2, "A");
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Test getItem for getting a simple item.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetItem() {
+		vm1.addItem(item1, "A");
+		try{
+			vm1.getItem("A");
+		} catch (Exception e){
+			fail("fail");
+		}
+	}
+	
+	/**
+	 * Fail
+	 * Test getItem reacting to a bad code.
+	 */
+	@Test
+	public void testGetItemFailWrongCode() {
+		vm1.addItem(item1, "A");
+		
+		try{
+			vm1.getItem("B");
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Test insertMoney to see if a Money will insert on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testInsertMoney() {
+		vm1.addItem(item1, "A");
+		try{
+			vm1.insertMoney(5);
+		} catch (Exception e){
+			fail("fail");
+		}
+		assertEquals(5, vm1.getBalance(), .001);
+	}
+	
+	/**
+	 * Test insertMoney to make sure no one can insert a negative amount of money.
+	 */
+	@Test
+	public void testInsertMoneyFailNegative() {
+		vm1.addItem(item1, "A");
+		try{
+			vm1.insertMoney(-5);
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Test getBalance to see if the balance will come out correctly after every section of
+	 * a basic transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testGetBalance() {
+		assertEquals(0, vm1.balance, .001);
+		vm1.addItem(item1, "A");
+		vm1.insertMoney(5.0);
+		assertEquals(5.0, vm1.balance, .001);
+		vm1.makePurchase("A");
+		assertEquals(2.0, vm1.balance, .001);
+		vm1.returnChange();
+		assertEquals(0, vm1.balance, .001);
+	}
+	
+	
+	/**
+	 * Test makePurchase on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testMakePurchase() {
+		vm1.addItem(item1, "A");
+		vm1.insertMoney(5.0);
+		assertTrue(vm1.makePurchase("A"));
+	}
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a bad code will fail the method.
+	 */
+	@Test
+	public void testMakePurchaseFailBadCode() {
+		vm1.addItem(item1, "A");
+		vm1.insertMoney(5.0);
+		try{
+			vm1.makePurchase("L");
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a null value will not pass.
+	 */
+	@Test
+	public void testMakePurchaseFailNull() {
+		vm1.addItem(null, "A");
+		vm1.insertMoney(5.0);
+		try{
+			vm1.makePurchase("A");
+			fail("fail");
+		} catch (IndexOutOfBoundsException anIndexOutOfBoundsException){
+			assertThat(anIndexOutOfBoundsException.getMessage(), ("Index: 0, Size: 0"));
+		}
+	}
+	
+	/**
+	 * Fail
+	 * Test makePurchase to make sure that a code fails if it doesn't represent an item (is empty).
+	 */
+	@Test
+	public void testMakePurchaseFailWrongCode() {
+		vm1.addItem(item1, "A");
+		vm1.insertMoney(5.0);
+		try{
+			vm1.makePurchase("B");
+			fail("fail");
+		} catch (Exception e){}
+	}
+	
+	/**
+	 * Test returnChange to see if it will return the correct amount of change on a simple transaction.
+	 */
+	//---------------------------------------------------
+	@Test
+	public void testReturnChange() {
+		vm1.addItem(item1, "A");
+		vm1.insertMoney(5);
+		vm1.makePurchase("A");
+		assertEquals(2, vm1.returnChange(), .001);
+		assertEquals(0, vm1.balance, .001);
+	}
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		item1 = null;
+		item2 = null;
+		item3 = null;
+		vm1 = null;
+	}
+}
